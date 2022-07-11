@@ -32,3 +32,78 @@ DTO 왜 쓰나요?
 - 데이터 유효성 체크하는데 효율적
 - 더 안정적인 코드로 만들어준다.
 - 여러 곳에서 사용했을 때 유지 보수성이 높아진다.
+
+
+Pipe
+- @Injectable() 데코레이터로 주석이 달린 클래스
+- 파이프는 data transformation과 data validation을 위해 사용
+- 파이프는 컨트롤러 경로 처리기에 의해 처리되는 인수에 대해 작동
+- nest는 메소드(ex. @get handler)가 호출되기 직전에 파이프를 삽입하고 파이프는 메소드로 향하는 인수를 수신하고 이에 대해 작동
+
+Handler-level Pipes
+
+- 핸들러 전체에 적용
+
+````typescript
+@Post()
+@UsePipes(pipe)
+createBoard(
+    @Body('title') title,
+    @Body('description') description
+){
+
+}
+````
+
+Parameter-level Pipes
+
+- 특정 파라미터에게만 적용되는 파이프
+
+
+````typescript
+@Post()
+createBoard(
+    @Body('title', ParameterPipe) title,
+    @Body('description') description
+){
+
+}
+````
+
+Global Pipes
+- 애플리케이션 레벨의 파이프
+- 클라이언트에서 들어오는 모든 요청에 적용됨.
+- 가장 상단 영역인 main.ts에 넣어주면 됨.
+
+````typescript
+async function bootstrap(){
+    const app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(GlobalPipes);
+    await app.listen(3000);
+}
+bootStrap();
+````
+
+Built-in Pipes
+
+- Nest JS에 기본적으로 사용할 수 있게 만들어 놓은 6가지의 파이프가 있습니다.
+- ValidationPipe
+- ParseIntPipe
+- ParseBoolPipe
+- ParseArrayPipe
+- ParseUUIDPipe
+- DefaultValuePipe
+
+````typescript
+@Get(':id')
+findOne(@Param('id', ParseIntPipe) id: number){
+    return ;
+}
+````
+
+필요한 모듈
+- class-validator, class-transformer
+- yarn add class-validator class-transformer
+
+class-validator
+- https://github.com/typestack/class-validator
