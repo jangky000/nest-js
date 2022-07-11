@@ -128,3 +128,16 @@ transform() 메소드
 - metadata: 인자에 대한 메타데이터를 포함한 객체, ex. {metatype: [Function: String], type: 'body', data: 'status'}
 - transform에서 return 된 값은 route 핸들러로 전달됨
 - 만약 예외(Exception)가 발생 시 클라이언트에 바로 전해짐
+
+TypeORM
+- nodejs에서 실행되는 typescript로 작성된 객체 관계형 매퍼 라이브러리
+
+ORM(Object Relational Mapping)이란
+- 객체(클래스)와 관계형 데이터베이스(테이블)의 데이터를 자동으로 변형 및 연결하는 작업
+- ORM을 이용한 개발은 객체와 데이터베이스의 변형에 유연하게 사용할 수 있음
+- DB의 종류에 종속적되지 않아 유지보수에 유리한 장점이 있음
+
+
+yarn add @nestjs/typeorm typeorm mysql2
+
+https://docs.nestjs.com/techniques/database
