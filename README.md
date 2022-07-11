@@ -107,3 +107,24 @@ findOne(@Param('id', ParseIntPipe) id: number){
 
 class-validator
 - https://github.com/typestack/class-validator
+
+커스텀 파이프
+
+- PipeTransform이라는 인터페이스를 implements한다.
+- transform이라는 메소드를 반드시 구현한다.
+
+````typescript
+export class BoardStatusValidationPipe implements PipeTransform {
+    transform(value: any, metadata: ArgumentMetadata){
+        console.log('value', value);
+        console.log('metadata', metadata);
+        return value;
+    }
+}
+````
+
+transform() 메소드
+- value: 처리된 인자의 값, ex. "asdasda"
+- metadata: 인자에 대한 메타데이터를 포함한 객체, ex. {metatype: [Function: String], type: 'body', data: 'status'}
+- transform에서 return 된 값은 route 핸들러로 전달됨
+- 만약 예외(Exception)가 발생 시 클라이언트에 바로 전해짐
