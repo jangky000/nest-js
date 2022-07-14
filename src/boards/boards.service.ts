@@ -1,30 +1,27 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { v1 as uuid } from 'uuid';
-import { Board, BoardStatus } from './board.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Board } from './board.entity';
+import { BoardStatus } from './board.model';
+import { BoardRepository } from './board.repository';
 import { CreateBoardDto } from './dto/createBoard.dto';
 
 @Injectable()
 export class BoardsService {
-  private boards: Board[] = [];
+  constructor(
+    @InjectRepository(BoardRepository)
+    private boardRepository: BoardRepository,
+  ) {}
 
-  getAllBoards(): Board[] {
-    return this.boards;
+  async getAllBoards(): Promise<Board[]> {
+    return await this.boardRepository.find();
   }
 
-  createBoard(createBoardDto: CreateBoardDto) {
-    const { title, description } = createBoardDto;
-    const board: Board = {
-      id: uuid(),
-      title,
-      description,
-      status: BoardStatus.PUBLIC,
-    };
-    this.boards.push(board);
-    return board;
+  async createBoard(createBoardDto: CreateBoardDto) {
+    return this.boardRepository.createBoard(createBoardDto);
   }
 
-  getBoardById(id: string): Board {
-    const found = this.boards.find((board) => board.id === id);
+  async getBoardById(id: number): Promise<Board> {
+    const found = await this.boardRepository.findOne({ where: { id } });
     if (!found) {
       // 없는 게시물을 찾으려고 할 때
       throw new NotFoundException(`Can't find Board with id ${id}`);
@@ -32,15 +29,17 @@ export class BoardsService {
     return found;
   }
 
-  deleteBoard(id: string): void {
-    // 없는 게시물을 삭제하려고 할 때
-    const found = this.getBoardById(id);
-    this.boards.filter((board) => board.id !== found.id);
+  async deleteBoard(id: string): Promise<void> {
+    // remove는 데이터가 없으면 에러 발생(404)
+    // delete는 존재하면 지우고, 존재하지 않으면 영향 없음
+    const result = await this.boardRepository.delete(id);
+    console.log(result);
   }
 
-  updateBoardStatus(id: string, status: BoardStatus): Board {
-    const board = this.getBoardById(id);
+  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+    const board = await this.getBoardById(id);
     board.status = status;
+    this.boardRepository.save(board);
     return board;
   }
 }
