@@ -141,3 +141,25 @@ ORM(Object Relational Mapping)이란
 yarn add @nestjs/typeorm typeorm mysql2
 
 https://docs.nestjs.com/techniques/database
+
+Entity
+- DB 테이블로 변환되는 Class
+
+Repository
+- 엔티티 개체와 함께 동작하며 엔티티 찾기, 삽입, 업데이트, 삭제 등을 처리함
+- DB와 관련된 작업(insert, find , delete 등)은 서비스에서 하는 것이 아닌 리포지터리에서 수행, 이것을 리포지터리 패턴이라고 부름
+- 서비스에 Repository injection하여 레포지터리 접근
+
+Middleware
+- Pipes
+    - 유효성 검사 및 페이로드 변환을 위해 사용, 데이터를 직렬화
+- Filters
+    - 오류 처리 미들웨어, 특정 오류 처리기를 사용할 경로와 각 경로 주변의 복잡성을 관리
+- Guards
+    - 인증 미들웨어, 지정된 경로로 통과할 수 있는 사람과, 허용되지 않은 사람을 서버에 알려줌
+- Interceptors
+    - 응답 매핑 및 캐시 관리, 요청 로깅과 같은 전후 미들웨어, 각 요청 전후에 이를 실행하는 기능
+
+미들웨어 호출 순서
+- guard -> interceptor(brefore) -> pipe -> controller -> service -> controller -> interceptor(after) -> filter(if applicable) -> client
+
