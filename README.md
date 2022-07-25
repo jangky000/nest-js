@@ -163,3 +163,12 @@ Middleware
 미들웨어 호출 순서
 - guard -> interceptor(brefore) -> pipe -> controller -> service -> controller -> interceptor(after) -> filter(if applicable) -> client
 
+---
+# graphQL
+
+- yarn add @nestjs/graphql apollo-server-express graphql-tools type-graphql graphql
+
+모델 생성
+- nest g module content
+- nest g service content
+- nest g resolver content
