@@ -172,3 +172,26 @@ Middleware
 - nest g module content
 - nest g service content
 - nest g resolver content
+
+---
+
+# GraphQL
+
+http://localhost:3000/graphql
+
+query {
+  getContents{
+    id, title, content
+  }
+}
+
+mutation {
+  createProduct(data: {
+    title: "test title2"
+    content: "test content2"
+  }){
+    id
+    title
+    content
+  }
+}

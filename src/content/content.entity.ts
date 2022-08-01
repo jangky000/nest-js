@@ -9,5 +9,5 @@ export class Content extends BaseEntity {
   title!: string;
 
   @Column()
-  desct: string;
+  content!: string;
 }

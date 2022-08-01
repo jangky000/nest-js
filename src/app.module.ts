@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsModule } from './boards/boards.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { ContentModule } from './content/content.module';
-import { ContentResolver } from './content/content.resolver';
 
 @Module({
   imports: [
@@ -17,6 +16,6 @@ import { ContentResolver } from './content/content.resolver';
     BoardsModule,
     ContentModule,
   ],
-  providers: [ContentResolver],
+  providers: [],
 })
 export class AppModule {}
